@@ -1,0 +1,238 @@
+:host {
+  all: initial;
+}
+
+.yd-trigger {
+  position: absolute;
+  z-index: 2147483647;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #4a7cff;
+  color: #fff;
+  font-size: 13px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  user-select: none;
+}
+.yd-trigger:hover {
+  background: #3a6cf0;
+}
+
+.yd-bubble {
+  position: absolute;
+  z-index: 2147483647;
+  box-sizing: border-box;
+  /* Intrinsic width: an absolutely-positioned box would otherwise shrink to
+     whatever room is left to its right, mangling bubbles near the viewport
+     edge before we get a chance to clamp them into view. */
+  width: max-content;
+  max-width: min(360px, calc(100vw - 16px));
+  min-width: 120px;
+  background: #fff;
+  color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  border: 1px solid #e5e7eb;
+  padding: 10px 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.yd-bubble--dict {
+  /* Fixed width: CJK text breaks at any character, so a shrink-to-fit box would
+     otherwise collapse to a 1–2 character column. */
+  width: min(340px, calc(100vw - 16px));
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.yd-bubble__result {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+/* Blinking caret while the translation is still streaming in. */
+.yd-bubble--streaming .yd-bubble__result::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: currentColor;
+  animation: yd-blink 1s steps(2, start) infinite;
+}
+@keyframes yd-blink {
+  to {
+    opacity: 0;
+  }
+}
+
+/* --- Dictionary entry --- */
+.yd-word {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  word-break: break-word;
+}
+.yd-brief {
+  margin-top: 4px;
+  color: #374151;
+  font-size: 15px;
+}
+.yd-phonetics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+  color: #4b5563;
+  font-size: 13px;
+}
+.yd-phonetic {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.yd-phonetic__region {
+  color: #9ca3af;
+}
+.yd-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.yd-tag {
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #6b7280;
+  font-size: 11px;
+  padding: 1px 6px;
+}
+.yd-defs {
+  margin-top: 10px;
+}
+.yd-def {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.yd-def__pos {
+  flex: 0 0 auto;
+  color: #9ca3af;
+  font-style: italic;
+  min-width: 30px;
+}
+.yd-def__text {
+  flex: 1 1 auto;
+  word-break: break-word;
+}
+.yd-forms {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 13px;
+  color: #6b7280;
+}
+.yd-form {
+  display: flex;
+  gap: 4px;
+}
+.yd-form__value {
+  color: #2563eb;
+}
+.yd-phrases {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+.yd-phrase {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 13px;
+}
+.yd-phrase__head {
+  flex: 0 0 auto;
+  color: #2563eb;
+  max-width: 45%;
+  word-break: break-word;
+}
+.yd-phrase__trans {
+  flex: 1 1 auto;
+  color: #4b5563;
+  word-break: break-word;
+}
+
+.yd-bubble__loading,
+.yd-bubble__error {
+  color: #6b7280;
+  font-size: 13px;
+}
+.yd-bubble__error {
+  color: #dc2626;
+}
+
+.yd-bubble__footer {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.yd-bubble__type {
+  color: #9ca3af;
+  font-size: 11px;
+}
+.yd-bubble__copy {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #4b5563;
+  font-size: 11px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.yd-bubble__copy:hover {
+  background: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  .yd-bubble {
+    background: #1f2937;
+    color: #f3f4f6;
+    border-color: #374151;
+  }
+  .yd-bubble__copy {
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
+  .yd-bubble__copy:hover {
+    background: #374151;
+  }
+  .yd-brief {
+    color: #d1d5db;
+  }
+  .yd-tag {
+    border-color: #4b5563;
+    color: #9ca3af;
+  }
+  .yd-forms,
+  .yd-phrases {
+    border-top-color: #374151;
+  }
+  .yd-form__value,
+  .yd-phrase__head {
+    color: #60a5fa;
+  }
+  .yd-phrase__trans {
+    color: #d1d5db;
+  }
+}

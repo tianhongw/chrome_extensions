@@ -1,0 +1,17 @@
+{
+  "name": "youdao-selection-translate",
+  "version": "0.2.0",
+  "description": "Chrome 划词翻译插件（基于免费有道翻译）",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.28",
+    "@types/chrome": "^0.0.270",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2"
+  }
+}

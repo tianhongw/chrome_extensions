@@ -1,0 +1,28 @@
+html,
+body {
+  margin: 0;
+  background: #fff;
+}
+#app {
+  min-height: 100vh;
+}
+/* The shared .yd-bubble card is a floating popover on web pages; in this
+   dedicated window it should fill the viewport as a flat panel. */
+.yd-bubble,
+.yd-bubble--dict {
+  position: static;
+  max-width: none;
+  min-width: 0;
+  width: auto;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  max-height: none;
+  padding: 16px 18px;
+}
+@media (prefers-color-scheme: dark) {
+  html,
+  body {
+    background: #1f2937;
+  }
+}

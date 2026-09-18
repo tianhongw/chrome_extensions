@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Management",
+  "description": "A compact tab manager for finding, focusing, pinning, muting, and closing open Chrome tabs.",
+  "version": "0.2.0",
+  "permissions": ["tabs", "favicon"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "Tab Management",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  }
+}
