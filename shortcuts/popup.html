@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shortcuts</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --fg: #111827;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --accent: #2563eb;
+        --bg: #fff;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --fg: #e5e7eb;
+          --muted: #9ca3af;
+          --line: #374151;
+          --bg: #1f2937;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        width: 300px;
+        font: 13px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--fg);
+        background: var(--bg);
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+      header h1 { font-size: 14px; margin: 0; }
+      .prefix {
+        padding: 10px 14px;
+        color: var(--muted);
+        border-bottom: 1px solid var(--line);
+      }
+      .prefix kbd {
+        font: 600 12px ui-monospace, Menlo, monospace;
+        color: var(--fg);
+        background: color-mix(in srgb, var(--fg) 8%, transparent);
+        padding: 2px 6px;
+        border-radius: 5px;
+      }
+      ul { list-style: none; margin: 0; padding: 6px 0; max-height: 280px; overflow: auto; }
+      li {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        padding: 4px 14px;
+      }
+      li .key {
+        font: 600 12px ui-monospace, Menlo, monospace;
+        color: var(--accent);
+        min-width: 42px;
+      }
+      li.empty { color: var(--muted); }
+      body.off ul, body.off .prefix { opacity: 0.45; }
+      footer { padding: 10px 14px; border-top: 1px solid var(--line); }
+      button {
+        font: inherit;
+        width: 100%;
+        padding: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: transparent;
+        color: var(--fg);
+        cursor: pointer;
+      }
+      button:hover { border-color: var(--accent); color: var(--accent); }
+      /* toggle */
+      .switch { position: relative; display: inline-block; width: 38px; height: 22px; }
+      .switch input { opacity: 0; width: 0; height: 0; }
+      .slider {
+        position: absolute; inset: 0; cursor: pointer;
+        background: var(--line); border-radius: 22px; transition: 0.15s;
+      }
+      .slider::before {
+        content: ""; position: absolute; height: 16px; width: 16px;
+        left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.15s;
+      }
+      input:checked + .slider { background: var(--accent); }
+      input:checked + .slider::before { transform: translateX(16px); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Shortcuts</h1>
+      <label class="switch">
+        <input type="checkbox" id="enabled" />
+        <span class="slider"></span>
+      </label>
+    </header>
+    <div class="prefix">Prefix: <kbd id="prefix">—</kbd></div>
+    <ul id="bindings"></ul>
+    <footer><button id="customize">Customize…</button></footer>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

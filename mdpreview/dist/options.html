@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link rel="icon" href="icons/icon32.png" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <img src="icons/icon128.png" width="48" height="48" alt="" />
+        <div class="header-text">
+          <h1 data-i18n="extName"></h1>
+          <p><span data-i18n="optionsSubtitle"></span> · <span id="version"></span></p>
+        </div>
+        <div class="header-actions">
+          <a class="btn" href="editor.html" target="_blank"><span data-i18n="openEditor"></span></a>
+          <a class="btn" href="editor.html?demo=1" target="_blank"><span data-i18n="openDemo"></span></a>
+        </div>
+      </header>
+
+      <div class="notice" id="file-access" hidden>
+        <div>
+          <strong data-i18n="fileAccessOff"></strong>
+          <div class="notice-desc" data-i18n="fileAccessOffDesc"></div>
+        </div>
+        <button type="button" class="btn btn-primary" id="file-access-fix" data-i18n="fileAccessFix"></button>
+      </div>
+
+      <h2 data-i18n="secGeneral"></h2>
+      <section class="card">
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optEnabled"></span>
+            <span class="row-desc" data-i18n="optEnabledDesc"></span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="enabled" />
+        </label>
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optRenderLocal"></span>
+            <span class="row-desc" data-i18n="optRenderLocalDesc"></span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="renderLocal" data-requires="enabled" />
+        </label>
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optRenderRemote"></span>
+            <span class="row-desc" data-i18n="optRenderRemoteDesc"></span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="renderRemote" data-requires="enabled" />
+        </label>
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optAutoReload"></span>
+            <span class="row-desc" data-i18n="optAutoReloadDesc"></span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="autoReload" />
+        </label>
+        <div class="row">
+          <span class="row-text"><span class="row-title" data-i18n="optReloadInterval"></span></span>
+          <select class="select" data-setting="reloadInterval" data-type="number" data-requires="autoReload">
+            <option value="500">0.5 s</option>
+            <option value="1000">1 s</option>
+            <option value="2000">2 s</option>
+            <option value="5000">5 s</option>
+          </select>
+        </div>
+      </section>
+
+      <h2 data-i18n="secAppearance"></h2>
+      <section class="card">
+        <div class="row">
+          <span class="row-text"><span class="row-title" data-i18n="optTheme"></span></span>
+          <div class="segmented" role="radiogroup" data-setting="theme">
+            <label><input type="radio" name="theme" value="auto" /><span data-i18n="theme_auto"></span></label>
+            <label><input type="radio" name="theme" value="light" /><span data-i18n="theme_light"></span></label>
+            <label><input type="radio" name="theme" value="dark" /><span data-i18n="theme_dark"></span></label>
+          </div>
+        </div>
+        <div class="row">
+          <span class="row-text"><span class="row-title" data-i18n="optWidth"></span></span>
+          <select class="select" data-setting="width">
+            <option value="narrow" data-i18n="width_narrow"></option>
+            <option value="normal" data-i18n="width_normal"></option>
+            <option value="wide" data-i18n="width_wide"></option>
+            <option value="full" data-i18n="width_full"></option>
+          </select>
+        </div>
+        <div class="row">
+          <span class="row-text"><span class="row-title" data-i18n="optFontSize"></span></span>
+          <span class="range">
+            <input type="range" min="12" max="22" step="1" data-setting="fontSize" data-type="number" />
+            <output id="font-size-value"></output>
+          </span>
+        </div>
+        <label class="row">
+          <span class="row-text"><span class="row-title" data-i18n="optToc"></span></span>
+          <input type="checkbox" class="switch" data-setting="toc" />
+        </label>
+      </section>
+
+      <h2 data-i18n="secMarkdown"></h2>
+      <section class="card">
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optMath"></span>
+            <span class="row-desc">
+              <span data-i18n="optMathDesc"></span>
+              <code>$…$</code> <code>$$…$$</code> <code>\(…\)</code> <code>\[…\]</code> <code>```math</code>
+            </span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="math" />
+        </label>
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optMermaid"></span>
+            <span class="row-desc" data-i18n="optMermaidDesc"></span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="mermaid" />
+        </label>
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optHtml"></span>
+            <span class="row-desc" data-i18n="optHtmlDesc"></span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="html" />
+        </label>
+        <label class="row">
+          <span class="row-text"><span class="row-title" data-i18n="optEmoji"></span></span>
+          <input type="checkbox" class="switch" data-setting="emoji" />
+        </label>
+        <label class="row">
+          <span class="row-text"><span class="row-title" data-i18n="optLinkify"></span></span>
+          <input type="checkbox" class="switch" data-setting="linkify" />
+        </label>
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optBreaks"></span>
+            <span class="row-desc" data-i18n="optBreaksDesc"></span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="breaks" />
+        </label>
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title" data-i18n="optTypographer"></span>
+            <span class="row-desc" data-i18n="optTypographerDesc"></span>
+          </span>
+          <input type="checkbox" class="switch" data-setting="typographer" />
+        </label>
+      </section>
+
+      <h2 data-i18n="secCustomCss"></h2>
+      <section class="card card-padded">
+        <p class="row-desc" data-i18n="customCssDesc"></p>
+        <textarea
+          class="code-input"
+          rows="8"
+          spellcheck="false"
+          data-setting="customCss"
+          placeholder=".markdown-body {&#10;  font-family: Georgia, serif;&#10;}"
+        ></textarea>
+      </section>
+
+      <footer class="footer">
+        <button type="button" class="btn" id="reset" data-i18n="resetSettings"></button>
+      </footer>
+    </main>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="options.js"></script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF 手写批注</title>
+  <link rel="stylesheet" href="viewer.css" />
+</head>
+<body>
+  <!-- 顶部工具栏 -->
+  <header id="toolbar" hidden>
+    <div class="tb-group">
+      <button id="tool-pen" class="tb-btn active" title="画笔 (P)">✏️<span>画笔</span></button>
+      <button id="tool-eraser" class="tb-btn" title="橡皮，整条删除 (E)">🧹<span>橡皮</span></button>
+    </div>
+
+    <div class="tb-group" id="color-group">
+      <span class="swatch" data-color="#e53935" style="background:#e53935" title="红"></span>
+      <span class="swatch" data-color="#1e88e5" style="background:#1e88e5" title="蓝"></span>
+      <span class="swatch" data-color="#000000" style="background:#000000" title="黑"></span>
+      <span class="swatch" data-color="#43a047" style="background:#43a047" title="绿"></span>
+      <input type="color" id="color-custom" value="#e53935" title="自定义颜色" />
+    </div>
+
+    <div class="tb-group">
+      <label class="tb-label">粗细</label>
+      <input type="range" id="width" min="1" max="16" step="1" value="3" />
+      <span id="width-val" class="tb-val">3</span>
+    </div>
+
+    <div class="tb-group">
+      <button id="undo" class="tb-btn" title="撤销 (Ctrl+Z)">↶<span>撤销</span></button>
+      <button id="redo" class="tb-btn" title="重做 (Ctrl+Shift+Z)">↷<span>重做</span></button>
+      <button id="clear" class="tb-btn" title="清空当前页">🗑<span>清空本页</span></button>
+    </div>
+
+    <div class="tb-group">
+      <button id="prev" class="tb-btn" title="上一页 ([)">◀</button>
+      <input type="number" id="page-input" min="1" value="1" />
+      <span class="tb-val">/ <span id="page-count">–</span></span>
+      <button id="next" class="tb-btn" title="下一页 (])">▶</button>
+    </div>
+
+    <div class="tb-group">
+      <button id="zoom-out" class="tb-btn" title="缩小">－</button>
+      <span id="zoom-level" class="tb-val">100%</span>
+      <button id="zoom-in" class="tb-btn" title="放大">＋</button>
+      <button id="fit-width" class="tb-btn" title="适应宽度">⤢<span>适应</span></button>
+    </div>
+
+    <div class="tb-group tb-right">
+      <button id="export-pdf" class="tb-btn primary" title="导出带手写的 PDF (Ctrl+S)">⬇<span>导出 PDF</span></button>
+      <button id="export-png" class="tb-btn" title="导出当前页 PNG">🖼<span>本页 PNG</span></button>
+      <span id="save-status" class="save-status"></span>
+    </div>
+  </header>
+
+  <!-- 加载中 -->
+  <div id="loading" hidden><div class="spinner"></div><p id="loading-text">正在加载 PDF…</p></div>
+
+  <!-- 欢迎 / 拖拽打开 -->
+  <div id="welcome">
+    <div id="dropzone">
+      <div class="welcome-icon">✏️📄</div>
+      <h1>PDF 手写批注 · 做题画笔</h1>
+      <p>把 PDF 拖到这里，或</p>
+      <label class="pick-btn">选择本地 PDF
+        <input type="file" id="file-input" accept="application/pdf,.pdf" hidden />
+      </label>
+      <p class="hint">提示：直接在浏览器里打开任意 <code>.pdf</code> 链接也会自动进入手写模式。<br/>
+        要接管本地文件（<code>file://</code>），请在 <code>chrome://extensions</code> 本扩展详情里打开「允许访问文件网址」。</p>
+    </div>
+  </div>
+
+  <!-- PDF 各页容器 -->
+  <main id="pages"></main>
+
+  <!-- jsPDF（UMD，挂到 window.jspdf）必须在模块脚本之前 -->
+  <script src="../../vendor/jspdf.umd.min.js"></script>
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>

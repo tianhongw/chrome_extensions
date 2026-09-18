@@ -1,0 +1,171 @@
+:root {
+  --tb-h: 48px;
+  --bg: #525659;
+  --tb-bg: #323639;
+  --tb-fg: #e8eaed;
+  --tb-border: #1f2123;
+  --accent: #1e88e5;
+}
+
+* { box-sizing: border-box; }
+
+/* hidden 属性必须能盖过下面 #toolbar/#welcome/#loading 的 display 规则 */
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  color: var(--tb-fg);
+}
+
+/* ---------- 工具栏 ---------- */
+#toolbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--tb-h);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  background: var(--tb-bg);
+  border-bottom: 1px solid var(--tb-border);
+  z-index: 1000;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.tb-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  height: 70%;
+}
+.tb-group:last-child { border-right: none; }
+.tb-right { margin-left: auto; }
+
+.tb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 8px;
+  font-size: 13px;
+  color: var(--tb-fg);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  line-height: 1;
+}
+.tb-btn span { font-size: 12px; }
+.tb-btn:hover { background: rgba(255,255,255,0.1); }
+.tb-btn.active { background: var(--accent); border-color: var(--accent); }
+.tb-btn.primary { background: #2e7d32; }
+.tb-btn.primary:hover { background: #388e3c; }
+.tb-btn:disabled { opacity: 0.4; cursor: default; }
+
+.tb-label, .tb-val { font-size: 12px; opacity: 0.85; }
+.tb-val { min-width: 18px; text-align: center; }
+
+.swatch {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.25);
+}
+.swatch.active { border-color: #fff; }
+
+#color-custom {
+  width: 26px; height: 26px; padding: 0;
+  border: none; background: none; cursor: pointer;
+}
+input[type="range"] { width: 90px; }
+#page-input {
+  width: 48px; height: 28px;
+  text-align: center;
+  border-radius: 4px; border: 1px solid var(--tb-border);
+  background: #1f2123; color: var(--tb-fg);
+}
+
+.save-status { font-size: 12px; opacity: 0.7; min-width: 70px; }
+
+/* ---------- 页面区 ---------- */
+#pages {
+  padding: calc(var(--tb-h) + 16px) 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-height: 100%;
+}
+
+.page {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  line-height: 0;
+}
+.page canvas { position: absolute; top: 0; left: 0; }
+.page .base-canvas { z-index: 1; }
+.page .draw-canvas {
+  z-index: 2;
+  touch-action: none;        /* 防止触摸时滚动，保证手写连续 */
+  cursor: crosshair;
+}
+body.eraser-mode .draw-canvas { cursor: cell; }
+
+/* ---------- 加载中 ---------- */
+#loading {
+  position: fixed; inset: var(--tb-h) 0 0 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; z-index: 900;
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- 欢迎/拖拽 ---------- */
+#welcome {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 950;
+  background: var(--bg);
+}
+#dropzone {
+  text-align: center;
+  padding: 48px 64px;
+  border: 2px dashed rgba(255,255,255,0.35);
+  border-radius: 16px;
+  max-width: 560px;
+}
+#dropzone.dragover { border-color: var(--accent); background: rgba(30,136,229,0.12); }
+.welcome-icon { font-size: 48px; margin-bottom: 8px; }
+#dropzone h1 { font-size: 22px; margin: 8px 0 16px; }
+#dropzone p { margin: 8px 0; opacity: 0.85; }
+.pick-btn {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 10px 22px;
+  background: var(--accent);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.pick-btn:hover { background: #1976d2; }
+.hint { font-size: 12.5px; opacity: 0.7; line-height: 1.7; margin-top: 18px; }
+code {
+  background: rgba(255,255,255,0.12);
+  padding: 1px 5px; border-radius: 4px;
+  font-family: ui-monospace, Menlo, monospace;
+}

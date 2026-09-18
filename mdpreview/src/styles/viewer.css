@@ -1,0 +1,315 @@
+/* Layout of the in-page viewer (sidebar outline, toolbar, content). */
+
+html.mdp {
+  --mdp-sidebar-width: 280px;
+  background-color: var(--bg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.mdp {
+    scroll-behavior: smooth;
+  }
+}
+
+html.mdp body {
+  margin: 0;
+  color: var(--fg);
+  background-color: var(--bg);
+  font-family: var(--font-sans);
+}
+
+.mdp-main {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 40px 48px 96px;
+  transition: margin-left 0.2s ease;
+}
+
+.mdp-main > .markdown-body,
+.mdp-main > .mdp-source {
+  max-width: var(--mdp-width, 920px);
+  margin: 0 auto;
+}
+
+html.mdp-toc-open .mdp-main {
+  margin-left: var(--mdp-sidebar-width);
+}
+
+/* Raw source view */
+
+.mdp-source {
+  box-sizing: border-box;
+  padding: 16px 20px;
+  font: 13px/1.6 var(--font-mono);
+  color: var(--fg);
+  white-space: pre-wrap;
+  word-break: break-word;
+  tab-size: 4;
+  background-color: var(--bg-muted);
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+}
+
+/* Sidebar outline */
+
+.mdp-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: var(--mdp-sidebar-width);
+  background-color: var(--bg-inset);
+  border-right: 1px solid var(--border-muted);
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 0.2s ease, visibility 0.2s;
+}
+
+html.mdp-toc-open .mdp-sidebar {
+  transform: none;
+  visibility: visible;
+}
+
+.mdp-sidebar-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 16px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  border-bottom: 1px solid var(--border-muted);
+}
+
+.mdp-sidebar-icon {
+  display: flex;
+  flex: none;
+  color: var(--fg-muted);
+}
+
+.mdp-sidebar-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.mdp-filename {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mdp-toc {
+  flex: 1;
+  padding: 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.mdp-toc-item {
+  display: block;
+  padding: 5px 8px 5px calc(8px + var(--depth, 0) * 14px);
+  margin: 1px 0;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--fg-muted);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 6px;
+}
+
+.mdp-toc-item:hover {
+  color: var(--fg);
+  background-color: var(--bg-neutral);
+}
+
+.mdp-toc-item:focus-visible {
+  outline: 2px solid var(--border-accent);
+  outline-offset: -2px;
+}
+
+.mdp-toc-item.mdp-active {
+  font-weight: 500;
+  color: var(--fg-accent);
+  background-color: var(--bg-accent);
+}
+
+.mdp-toc-empty {
+  padding: 8px;
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+.mdp-stats {
+  flex: none;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: var(--fg-muted);
+  border-top: 1px solid var(--border-muted);
+}
+
+.mdp-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  display: none;
+  background-color: var(--scrim);
+}
+
+/* Floating toolbar, back-to-top button and toast */
+
+.mdp-toolbar {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 30;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background-color: var(--bg-overlay);
+  border: 1px solid var(--border-muted);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+  opacity: 0.55;
+  transition: opacity 0.2s, box-shadow 0.2s;
+}
+
+.mdp-toolbar:hover,
+.mdp-toolbar:focus-within {
+  opacity: 1;
+  box-shadow: 0 4px 16px var(--shadow-color);
+}
+
+.mdp-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--fg-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.mdp-button:hover {
+  color: var(--fg);
+  background-color: var(--bg-neutral);
+}
+
+.mdp-button:focus-visible {
+  outline: 2px solid var(--border-accent);
+  outline-offset: -2px;
+}
+
+.mdp-button[aria-pressed="true"] {
+  color: var(--fg-accent);
+}
+
+.mdp-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 30;
+  background-color: var(--bg-overlay);
+  border: 1px solid var(--border-muted);
+  border-radius: 50%;
+  box-shadow: 0 4px 16px var(--shadow-color);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.mdp-top.mdp-show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mdp-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 40;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--bg);
+  pointer-events: none;
+  background-color: var(--fg);
+  border-radius: 999px;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.mdp-toast.mdp-show {
+  opacity: 0.9;
+  transform: translate(-50%, 0);
+}
+
+/* Narrow windows: the outline becomes an overlay drawer. */
+
+@media (max-width: 1080px) {
+  html.mdp-toc-open .mdp-main {
+    margin-left: 0;
+  }
+
+  html.mdp-toc-open .mdp-scrim {
+    display: block;
+  }
+
+  .mdp-sidebar {
+    box-shadow: 0 8px 24px var(--shadow-color);
+  }
+}
+
+@media (max-width: 640px) {
+  .mdp-main {
+    padding: 60px 16px 64px;
+  }
+}
+
+@media print {
+  .mdp-sidebar,
+  .mdp-toolbar,
+  .mdp-top,
+  .mdp-toast,
+  .mdp-scrim,
+  .markdown-body .mdp-copy,
+  .markdown-body .mdp-anchor {
+    display: none !important;
+  }
+
+  html.mdp .mdp-main {
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mdp-main > .markdown-body {
+    max-width: none;
+  }
+
+  .markdown-body pre,
+  .markdown-body pre code {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote,
+  .markdown-body table,
+  .markdown-body img,
+  .markdown-body .mdp-mermaid {
+    break-inside: avoid;
+  }
+
+  .markdown-body :is(h1, h2, h3, h4, h5, h6) {
+    break-after: avoid;
+  }
+}

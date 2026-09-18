@@ -1,0 +1,249 @@
+/* Controls shared by the extension's own pages (popup, options, editor). */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --btn-bg: light-dark(#f6f8fa, #212830);
+  --btn-bg-hover: light-dark(#eff2f5, #262c36);
+  --btn-primary-bg: light-dark(#0969da, #1f6feb);
+  --btn-primary-bg-hover: light-dark(#0860ca, #2a7aef);
+}
+
+body {
+  margin: 0;
+  font: 14px/1.5 var(--font-sans);
+  color: var(--fg);
+  background-color: var(--bg);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--fg);
+  background-color: var(--btn-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn:hover {
+  background-color: var(--btn-bg-hover);
+}
+
+.btn:focus-visible,
+.link:focus-visible,
+.switch:focus-visible,
+.select:focus-visible {
+  outline: 2px solid var(--border-accent);
+  outline-offset: 1px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: var(--btn-primary-bg);
+  border-color: transparent;
+}
+
+.btn-primary:hover {
+  background-color: var(--btn-primary-bg-hover);
+}
+
+.btn-ghost {
+  color: var(--fg-muted);
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  color: var(--fg);
+  background-color: var(--bg-neutral);
+}
+
+.btn-icon {
+  width: 32px;
+  padding: 0;
+}
+
+.link {
+  padding: 0;
+  font-weight: 500;
+  color: var(--fg-accent);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Toggle switch: <input type="checkbox" class="switch"> */
+
+.switch {
+  position: relative;
+  flex: none;
+  width: 36px;
+  height: 20px;
+  margin: 0;
+  background-color: var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  appearance: none;
+  transition: background-color 0.15s;
+}
+
+.switch::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px #0000004d;
+  transition: transform 0.15s;
+}
+
+.switch:checked {
+  background-color: var(--btn-primary-bg);
+}
+
+.switch:checked::after {
+  transform: translateX(16px);
+}
+
+.switch:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Segmented control: <div class="segmented"><label><input type="radio">…</label>…</div> */
+
+.segmented {
+  display: inline-flex;
+  flex: none;
+  padding: 2px;
+  background-color: var(--bg-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.segmented label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  font-size: 13px;
+  color: var(--fg-muted);
+  white-space: nowrap;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.segmented label:hover {
+  color: var(--fg);
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmented label:has(input:checked) {
+  color: var(--fg);
+  background-color: var(--bg);
+  box-shadow: 0 0 0 1px var(--border-muted), 0 1px 2px var(--shadow-color);
+}
+
+.segmented label:has(input:focus-visible) {
+  outline: 2px solid var(--border-accent);
+}
+
+.segmented svg {
+  width: 14px;
+  height: 14px;
+}
+
+.select {
+  height: 32px;
+  padding: 0 28px 0 10px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  background-color: var(--bg-attention);
+  border: 1px solid var(--border-attention);
+  border-radius: 6px;
+}
+
+.notice > :first-child {
+  flex: 1;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 100;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--bg);
+  pointer-events: none;
+  background-color: var(--fg);
+  border-radius: 999px;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.toast.show {
+  opacity: 0.9;
+  transform: translate(-50%, 0);
+}
