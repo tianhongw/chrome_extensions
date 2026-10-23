@@ -8,6 +8,8 @@ export interface TranslateRequest {
 export interface PronounceRequest {
   type: "pronounce";
   text: string;
+  /** Voice accent; omitted → guessed from the text. */
+  lang?: "en-US" | "en-GB";
 }
 
 export type PronounceEvent =

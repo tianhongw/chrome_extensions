@@ -29,7 +29,9 @@ function renderDict(bubble: HTMLElement, d: DictResult): void {
   bubble.classList.add("yd-bubble--dict");
 
   const heading = el("yd-word-heading");
-  heading.append(el("yd-word", d.word), makePronounceButton(d.word));
+  heading.appendChild(el("yd-word", d.word));
+  // Words with phonetics get a speaker per accent; others get one by the headword.
+  if (!d.phonetics.length) heading.appendChild(makePronounceButton(d.word));
   bubble.appendChild(heading);
   if (d.brief) bubble.appendChild(el("yd-brief", d.brief));
 
@@ -39,6 +41,10 @@ function renderDict(bubble: HTMLElement, d: DictResult): void {
       const item = el("yd-phonetic");
       item.appendChild(el("yd-phonetic__region", p.region));
       item.appendChild(el("yd-phonetic__ph", `/${p.ph}/`));
+      item.appendChild(makePronounceButton(d.word, {
+        lang: p.region === "英" ? "en-GB" : p.region === "美" ? "en-US" : undefined,
+        label: `${p.region}式发音`,
+      }));
       row.appendChild(item);
     }
     bubble.appendChild(row);

@@ -1,7 +1,7 @@
 import bubbleCss from "./bubble.css?inline";
 import type { TranslateEvent, TranslateRequest, TranslateResponse } from "../lib/messages";
 import { renderResult, showError, showLoading, showPartial } from "../lib/render";
-import { makePronounceButton, stopPronunciation } from "../lib/pronunciation";
+import { stopPronunciation } from "../lib/pronunciation";
 
 const MAX_LEN = 5000;
 const MARGIN = 8; // min distance from viewport edges
@@ -136,7 +136,7 @@ function showTrigger(a: Anchor): void {
     suppressNextMouseup = true;
   });
   translate.addEventListener("click", () => void runTranslation(a));
-  trigger.append(translate, makePronounceButton(lastText));
+  trigger.appendChild(translate);
   root.appendChild(trigger);
   placeTrigger(trigger, a);
 }

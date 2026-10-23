@@ -44,7 +44,9 @@ export function connectPronunciation(port: chrome.runtime.Port): void {
     activePort = port;
     try {
       chrome.tts.speak(text, {
-        lang: /\p{Script=Han}/u.test(text) ? "zh-CN" : "en-US",
+        lang: msg.lang === "en-GB" || msg.lang === "en-US"
+          ? msg.lang
+          : /\p{Script=Han}/u.test(text) ? "zh-CN" : "en-US",
         enqueue: false,
         requiredEventTypes: ["end"],
         onEvent: (event) => {
