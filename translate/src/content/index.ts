@@ -1,10 +1,10 @@
 import bubbleCss from "./bubble.css?inline";
 import type { TranslateEvent, TranslateRequest, TranslateResponse } from "../lib/messages";
 import { renderResult, showError, showLoading, showPartial } from "../lib/render";
+import { makePronounceButton, stopPronunciation } from "../lib/pronunciation";
 
 const MAX_LEN = 5000;
 const MARGIN = 8; // min distance from viewport edges
-const TRIGGER_SIZE = 24;
 const CONTEXT_LOST_MSG = "扩展已更新，请刷新页面后重试";
 
 /** Selection box in document coordinates, so it stays valid if the page scrolls. */
@@ -46,6 +46,7 @@ function ensureHost(): ShadowRoot {
 }
 
 function clearUi(): void {
+  stopPronunciation();
   if (!shadow) return;
   // Remove everything except the <style> element.
   shadow.querySelectorAll(".yd-trigger, .yd-bubble").forEach((el) => el.remove());
@@ -81,10 +82,11 @@ function setPos(el: HTMLElement, left: number, top: number): void {
 
 function placeTrigger(trigger: HTMLElement, a: Anchor): void {
   const { sx, sy, vw, vh } = viewport();
-  const left = clamp(a.right - 4, sx + MARGIN, sx + vw - TRIGGER_SIZE - MARGIN);
+  const left = clamp(a.right - 4, sx + MARGIN, Math.max(sx + MARGIN, sx + vw - trigger.offsetWidth - MARGIN));
+  const height = trigger.offsetHeight;
   let top = a.bottom + 4;
   // No room below the selection → sit above it.
-  if (top + TRIGGER_SIZE > sy + vh - MARGIN) top = a.top - 4 - TRIGGER_SIZE;
+  if (top + height > sy + vh - MARGIN) top = a.top - 4 - height;
   top = Math.max(top, sy + MARGIN);
   setPos(trigger, left, top);
 }
@@ -120,18 +122,23 @@ function showTrigger(a: Anchor): void {
   clearUi();
   const trigger = document.createElement("div");
   trigger.className = "yd-trigger";
-  trigger.textContent = "译";
-  trigger.title = "翻译选中文本";
-  placeTrigger(trigger, a);
+  const translate = document.createElement("button");
+  translate.type = "button";
+  translate.className = "yd-trigger__translate";
+  translate.textContent = "译";
+  translate.title = "翻译选中文本";
+  translate.setAttribute("aria-label", translate.title);
   trigger.addEventListener("mousedown", (e) => {
     // Prevent clearing the selection / dismissing before we read it, and ignore
     // the trailing mouseup so it doesn't re-trigger over the new bubble.
     e.preventDefault();
     e.stopPropagation();
     suppressNextMouseup = true;
-    void runTranslation(a);
   });
+  translate.addEventListener("click", () => void runTranslation(a));
+  trigger.append(translate, makePronounceButton(lastText));
   root.appendChild(trigger);
+  placeTrigger(trigger, a);
 }
 
 function buildBubble(): HTMLDivElement {

@@ -1,6 +1,7 @@
 import { translate } from "../lib/youdao";
 import { cacheGet, cacheSet } from "../lib/cache";
 import { sessionSet } from "../lib/session-store";
+import { connectPronunciation } from "./pronunciation";
 import type {
   ResultPayload,
   TranslateEvent,
@@ -11,6 +12,8 @@ import type {
 // Identical texts requested while a translation is still in flight share the
 // same promise instead of hitting the network twice.
 const inflight = new Map<string, Promise<TranslateResponse>>();
+
+chrome.runtime.onConnect.addListener(connectPronunciation);
 
 async function handleTranslate(
   text: string,

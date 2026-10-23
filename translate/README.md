@@ -5,6 +5,7 @@ A minimal Chrome extension: **select any text** on a web page, click the floatin
 ## Features
 
 - **Selection translation** — select text (mouse, or Shift+arrows) → click "译" → see the result in a bubble
+- **Pronunciation** — click "发音" beside "译" to hear the selected text, or use the pronunciation button in a translation result (including the PDF result window). Click "停止" to stop. Uses Chrome's built-in text-to-speech with English / Chinese language detection; available voices depend on your system.
 - **Streaming output** — long texts render progressively as Youdao's LLM generates them
 - **Dictionary cards** for single words / short phrases: phonetics, exam tags, definitions by part of speech, word forms, phrases
 - **Automatic direction detection** between Chinese and English
@@ -30,7 +31,9 @@ npm run dev
 1. Open `chrome://extensions`
 2. Enable **Developer mode** (top-right toggle)
 3. Click **Load unpacked** and select this project's `dist/` directory
-4. Open any web page, select some text, and click the "译" button that appears
+4. Open any web page, select some text, and click "译" to translate or "发音" to hear it
+
+After rebuilding an existing installation, reload the extension in `chrome://extensions` and refresh the web page. Pronunciation requires the extension's `tts` permission.
 
 ## How It Works
 

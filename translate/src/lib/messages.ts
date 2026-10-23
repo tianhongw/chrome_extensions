@@ -4,6 +4,16 @@ export interface TranslateRequest {
   text: string;
 }
 
+/** Pronunciation runs in the background so it is independent of page policies. */
+export interface PronounceRequest {
+  type: "pronounce";
+  text: string;
+}
+
+export type PronounceEvent =
+  | { type: "start" | "done" }
+  | { type: "error"; error: string };
+
 /**
  * Events streamed back over the port. `partial` carries the machine
  * translation accumulated so far; exactly one `done` or `error` ends the

@@ -2,6 +2,7 @@ import bubbleCss from "../content/bubble.css?inline";
 import resultCss from "./result.css?inline";
 import { renderResult, showError, showLoading, showPartial } from "../lib/render";
 import type { ResultPayload } from "../lib/messages";
+import { stopPronunciation } from "../lib/pronunciation";
 
 const style = document.createElement("style");
 style.textContent = bubbleCss + "\n" + resultCss;
@@ -13,6 +14,7 @@ card.className = "yd-bubble";
 app.appendChild(card);
 
 function render(payload: ResultPayload | undefined | null): void {
+  stopPronunciation();
   if (!payload) {
     showError(card, "没有结果");
     return;

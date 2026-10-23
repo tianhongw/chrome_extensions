@@ -1,6 +1,6 @@
 {
   "name": "youdao-selection-translate",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Chrome 划词翻译插件（基于免费有道翻译）",
   "type": "module",
   "scripts": {

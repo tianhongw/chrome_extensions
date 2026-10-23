@@ -1,4 +1,5 @@
-import type { DictResult, TranslationResult } from "./messages";
+import type { DictResult, PlainResult, TranslationResult } from "./messages";
+import { makePronounceButton } from "./pronunciation";
 
 export function el(cls: string, text?: string): HTMLDivElement {
   const d = document.createElement("div");
@@ -27,7 +28,9 @@ function renderDict(bubble: HTMLElement, d: DictResult): void {
   bubble.innerHTML = "";
   bubble.classList.add("yd-bubble--dict");
 
-  bubble.appendChild(el("yd-word", d.word));
+  const heading = el("yd-word-heading");
+  heading.append(el("yd-word", d.word), makePronounceButton(d.word));
+  bubble.appendChild(heading);
   if (d.brief) bubble.appendChild(el("yd-brief", d.brief));
 
   if (d.phonetics.length) {
@@ -86,12 +89,13 @@ function renderDict(bubble: HTMLElement, d: DictResult): void {
   bubble.appendChild(footer);
 }
 
-function renderPlain(bubble: HTMLElement, data: { tgt: string; type: string }): void {
+function renderPlain(bubble: HTMLElement, data: PlainResult): void {
   bubble.innerHTML = "";
   bubble.appendChild(el("yd-bubble__result", data.tgt));
 
   const footer = el("yd-bubble__footer");
   footer.appendChild(el("yd-bubble__type", data.type));
+  footer.appendChild(makePronounceButton(data.src));
   footer.appendChild(makeCopyButton(() => data.tgt));
   bubble.appendChild(footer);
 }
